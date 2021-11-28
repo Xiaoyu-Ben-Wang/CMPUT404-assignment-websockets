@@ -21,6 +21,7 @@ Contributors / Licensing
 ========================
 
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
+Code changes are LICENSE'd by Xiaoyu Wang
 
 freetests.py is LICENSE'D under a BSD-like license:
 
@@ -53,9 +54,15 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
+
+
 Contributors
 ============
 
 * Mark Galloway
 * Abram Hindle
 * Cole Mackenzie
+
+Student Contributors
+====================
+* Xiaoyu Wang
