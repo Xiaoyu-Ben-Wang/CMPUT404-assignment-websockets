@@ -101,10 +101,12 @@ def read_ws(ws,client):
     try:
         while True:
             msg = ws.receive()
-            if msg:
+            if msg is not None:
                 packet = json.loads(msg)
                 for entity, val in packet.items():
                     myWorld.set(entity, val)
+                for client in clients:
+                    client.put(json.dumps(packet))
             else:
                 break
     except Exception as e:
