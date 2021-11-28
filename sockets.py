@@ -27,7 +27,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import flask
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sockets import Sockets
 import gevent
 from gevent import queue
@@ -155,23 +155,23 @@ def update(entity):
     '''update the entities via this interface'''
     req = flask_post_json()
     myWorld.set(entity, req)
-    return (myWorld.get(entity), 201)
+    return jsonify(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])
 def world():
     '''you should probably return the world here'''
-    return (myWorld.world(), 200)
+    return jsonify(myWorld.world())
 
 @app.route("/entity/<entity>")
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return (myWorld.get(entity), 200)
+    return jsonify(myWorld.get(entity))
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return (myWorld.world(), 200)
+    return jsonify(myWorld.world())
 
 
 
