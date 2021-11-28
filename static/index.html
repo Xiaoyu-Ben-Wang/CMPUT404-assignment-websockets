@@ -48,7 +48,6 @@ function debug(str) {
     var debugDiv = document.getElementById('debug');
     debugDiv.innerHTML = "" + str;
 }
-//debug("Test");
 
 world = {};
 
@@ -124,6 +123,7 @@ function addEntity(entity, data) {
     world[entity] = data;
     drawNextFrame(); // (but should we?)
     //XXX: Send a XHTML Request that updates the entity you just modified!
+    socket.send(JSON.stringify({entity: data}))
 }
 var counter = 0;
 function addEntityWithoutName(data) {
@@ -261,9 +261,20 @@ function update() {
 
 function wsSetup() {
     var url = "ws://"+host+"/subscribe";
+    console.log(url)
     socket = new WebSocket(url);
     socket.onopen = function() {
         //XXX: TODO What are you going to do here?
+        // Source: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch,
+        // Copyright 2005-2021 Mozilla and individual contributors
+        // Licensed CC-BY-SA 2.5
+        debug("WebSocket Connection Success!")
+        fetch("/world")
+        .then(response => response.json())
+        .then(world_data => {
+            world = world_data;
+            drawNextFrame();
+        })
     };
     socket.onerror = function(msg) {
         debug("WebSocket Error:" + msg.data);
@@ -272,6 +283,14 @@ function wsSetup() {
         try {
             debug("WebSocket Recv:" + msg.data);
             //XXX: TODO What are you going to do here?
+            const data = JSON.parse(msg.data);
+            // console.log(data)
+            for (let entity in data) {
+                world[entity] = data[entity];
+            }
+
+            drawNextFrame();
+
         } catch (e) {
             alert("socket on message: " + e);
         }
@@ -284,7 +303,7 @@ wsSetup();
 
 
 // 30 frames per second
-setInterval( update, 1000/20.0);
+setInterval( update, 1000/30.0);
 
 
     </script>
